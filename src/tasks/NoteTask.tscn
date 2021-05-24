@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/tasks/NoteTask.gd" type="Script" id=1]
+
+[node name="NoteTask" type="GraphNode"]
+margin_left = 94.0
+margin_top = 130.0
+margin_right = 396.0
+margin_bottom = 373.0
+mouse_filter = 1
+title = "Note Task"
+show_close = true
+resizable = true
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="."]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 286.0
+margin_bottom = 24.0
+wrap_enabled = true
+
+[connection signal="close_request" from="." to="." method="_on_NoteTask_close_request"]
+[connection signal="dragged" from="." to="." method="_on_NoteTask_dragged"]
+[connection signal="resize_request" from="." to="." method="_on_NoteTask_resize_request"]
+[connection signal="text_changed" from="TextEdit" to="." method="_on_TextEdit_text_changed"]

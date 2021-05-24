@@ -1,0 +1,69 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/tasks/CheckboxTask.gd" type="Script" id=1]
+
+[node name="CheckboxTask" type="GraphNode"]
+margin_right = 224.0
+margin_bottom = 106.0
+rect_min_size = Vector2( 224, 72 )
+mouse_filter = 1
+title = "Checkbox Task"
+show_close = true
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 208.0
+margin_bottom = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 192.0
+margin_bottom = 24.0
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/HBoxContainer"]
+margin_right = 24.0
+margin_bottom = 24.0
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/HBoxContainer"]
+margin_left = 28.0
+margin_top = 5.0
+margin_right = 192.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Name" type="LineEdit" parent="VBoxContainer"]
+margin_top = 28.0
+margin_right = 192.0
+margin_bottom = 52.0
+text = "Check Box Task"
+align = 1
+
+[node name="Information" type="Button" parent="VBoxContainer"]
+margin_top = 56.0
+margin_right = 192.0
+margin_bottom = 76.0
+text = "Details"
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="close_request" from="." to="." method="_on_CheckboxTask_close_request"]
+[connection signal="dragged" from="." to="." method="_on_CheckboxTask_dragged"]
+[connection signal="toggled" from="VBoxContainer/HBoxContainer/CheckBox" to="." method="_on_CheckBox_toggled"]
+[connection signal="focus_entered" from="VBoxContainer/Name" to="." method="_on_Name_focus_entered"]
+[connection signal="text_entered" from="VBoxContainer/Name" to="." method="_on_LineEdit_text_entered"]
+[connection signal="pressed" from="VBoxContainer/Information" to="." method="_on_Information_pressed"]

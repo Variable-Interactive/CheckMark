@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/maldita.ogg-f5ab11a62165851edf9fb0411cf5e781.oggstr"
+
+[deps]
+
+source_file="res://Tutorial/maldita.ogg"
+dest_files=[ "res://.import/maldita.ogg-f5ab11a62165851edf9fb0411cf5e781.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

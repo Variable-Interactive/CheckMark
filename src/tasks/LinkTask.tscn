@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/tasks/LinkTask.gd" type="Script" id=1]
+
+[node name="LinkTask" type="GraphNode"]
+margin_right = 267.0
+margin_bottom = 97.0
+mouse_filter = 1
+title = "Link Task"
+show_close = true
+resizable = true
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color( 1, 1, 1, 1 )
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color( 1, 1, 1, 1 )
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color( 1, 1, 1, 1 )
+slot/1/right_enabled = false
+slot/1/right_type = 0
+slot/1/right_color = Color( 1, 1, 1, 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LinkButton" type="Button" parent="."]
+margin_left = 16.0
+margin_top = 24.0
+margin_right = 251.0
+margin_bottom = 44.0
+text = "https://godotengine.org/"
+clip_text = true
+
+[node name="CentreContainer" type="CenterContainer" parent="."]
+margin_left = 16.0
+margin_top = 45.0
+margin_right = 251.0
+margin_bottom = 65.0
+
+[node name="Options" type="Button" parent="CentreContainer"]
+margin_left = 86.0
+margin_right = 149.0
+margin_bottom = 20.0
+text = "Options"
+
+[connection signal="close_request" from="." to="." method="_on_LinkTask_close_request"]
+[connection signal="dragged" from="." to="." method="_on_LinkTask_dragged"]
+[connection signal="resize_request" from="." to="." method="_on_LinkTask_resize_request"]
+[connection signal="pressed" from="LinkButton" to="." method="_on_LinkButton_pressed"]
+[connection signal="pressed" from="CentreContainer/Options" to="." method="_on_Options_pressed"]
