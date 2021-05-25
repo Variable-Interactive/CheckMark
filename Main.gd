@@ -138,7 +138,6 @@ func handle_loading(info :Dictionary):
 		current_board.add_child(new_task)
 		new_task.start(info)
 	if info.type == "note_task":
-		print("f")
 		var new_task = preload("res://src/tasks/NoteTask.tscn").instance()
 		current_board.add_child(new_task)
 		new_task.start(info)

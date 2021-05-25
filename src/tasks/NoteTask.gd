@@ -38,7 +38,6 @@ func _on_NoteTask_resize_request(new_minsize):
 	note.rect_min_size.y = 0
 	rect_size = new_minsize
 	information.size = rect_size
-	print(information.size)
 	update_note_size()
 
 

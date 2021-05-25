@@ -30,6 +30,9 @@ func start(info):
 	if audio_stream.stream != null:
 		timeline.editable = true
 		play_pause.disabled = false
+	else:
+		timeline.editable = false
+		play_pause.disabled = true
 	information = info
 	opened = true
 
@@ -103,6 +106,8 @@ func _on_load_pressed():
 	audio_stream.stream = path_to_stream(text)
 	information.audio = text
 	
+	print(audio_stream.stream)
+	
 	if audio_stream.stream == null:
 		timeline.editable = false
 		play_pause.disabled = true
@@ -123,7 +128,6 @@ func path_to_stream(path):
 			var buffer = file.get_buffer(file.get_len())
 			new_stream.data = buffer
 		file.close()
-		
 		return new_stream
 	
 	elif path.to_lower().ends_with(".mp3"):
@@ -139,6 +143,7 @@ func path_to_stream(path):
 	
 	elif path.to_lower().ends_with(".wav"):
 		new_stream = AudioStreamSample.new()
+		new_stream.format = AudioStreamSample.FORMAT_16_BITS
 		var file := File.new()
 		var err = file.open(path, file.READ)
 		if err == OK:
