@@ -21,7 +21,8 @@ func _ready():
 	load_project("user://old_project.vplan")
 
 	for child in $HBoxContainer/Boards.get_children():
-		child.connect("switch", self, "Switch_board")
+		if !child.is_connected("switch", self, "Switch_board"):
+			child.connect("switch", self, "Switch_board")
 
 
 

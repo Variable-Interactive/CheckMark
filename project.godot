@@ -13,7 +13,7 @@ config_version=4
 config/name="GodoPlanner"
 config/description="Provides Boards to organize your projects"
 run/main_scene="res://Main.tscn"
-config/icon="res://graphics/icons/icon.png"
+config/icon="res://assets/icons/icon.png"
 
 [input]
 
