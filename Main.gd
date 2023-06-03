@@ -19,7 +19,7 @@ func _ready():
 	setup_right_menu()
 	load_project("res://Tutorial/Tutorial.res")
 	load_project("user://old_project.vplan")
-	
+
 	for child in $HBoxContainer/Boards.get_children():
 		child.connect("switch", self, "Switch_board")
 
@@ -30,31 +30,31 @@ func _process(_delta):
 	if Input.is_action_just_pressed("right_click"):
 		right_menu.rect_position = get_global_mouse_position()
 		right_menu.popup()
-	
+
 	if Input.is_action_just_pressed("left_click"):
 		if not mouse_inside_menu:
 			right_menu.hide()
-	
+
 	if Input.is_action_just_pressed("zoom1"):
 		var factor = 0
 		current_board.zoom = 0.579 + (1.149 * factor)
-	
+
 	if Input.is_action_just_pressed("zoom2"):
 		var factor = 1.0/5.0
 		current_board.zoom = 0.579 + (1.149 * factor)
-	
+
 	if Input.is_action_just_pressed("zoom3"):
 		var factor = 2.0/5.0
 		current_board.zoom = 0.579 + (1.149 * factor)
-	
+
 	if Input.is_action_just_pressed("zoom4"):
 		var factor = 3.0/5.0
 		current_board.zoom = 0.579 + (1.149 * factor)
-	
+
 	if Input.is_action_just_pressed("zoom5"):
 		var factor = 4.0/5.0
 		current_board.zoom = 0.579 + (1.149 * factor)
-	
+
 	if Input.is_action_just_pressed("zoom6"):
 		var factor = 1
 		current_board.zoom = 0.579 + (1.149 * factor)
@@ -113,11 +113,11 @@ func load_project(path :String):
 		var error = file.open(path, File.READ)
 		if error != OK:
 			return
-		
+
 		_on_Add_pressed()
 		$HBoxContainer/Boards.get_child($HBoxContainer/Boards.get_child_count() - 1).text = path.get_file()
 		$VBoxContainer/Stats/ProjName.text = path.get_file()
-		
+
 		data = file.get_var()
 		for info in data:
 			handle_loading(info)

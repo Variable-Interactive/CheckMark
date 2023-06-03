@@ -225,22 +225,20 @@ __meta__ = {
 [node name="OpenBoard" type="FileDialog" parent="."]
 margin_right = 537.0
 margin_bottom = 398.0
+rect_min_size = Vector2( 170, 59.5 )
 window_title = "Open a File"
 resizable = true
 mode = 0
 access = 2
 filters = PoolStringArray( "*.vplan" )
-current_dir = "/home/variable/Documents/Godot/Godot projects/Idea Board"
-current_path = "/home/variable/Documents/Godot/Godot projects/Idea Board/"
 
 [node name="SaveBoard" type="FileDialog" parent="."]
 margin_right = 537.0
 margin_bottom = 398.0
+rect_min_size = Vector2( 170, 59.5 )
 resizable = true
 access = 2
 filters = PoolStringArray( "*.vplan" )
-current_dir = "/home/variable/Documents/Godot/Godot projects/Idea Board"
-current_path = "/home/variable/Documents/Godot/Godot projects/Idea Board/"
 __meta__ = {
 "_editor_description_": ""
 }
