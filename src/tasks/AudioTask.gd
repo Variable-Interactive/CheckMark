@@ -41,7 +41,7 @@ func _on_AudioTask_dragged(_from, to):
 	information.position = to
 
 
-func _process(_delta):
+func _input(_event: InputEvent) -> void:
 	if not audio_stream.stream_paused:
 		timeline.value = audio_stream.get_playback_position()
 

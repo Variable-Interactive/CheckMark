@@ -20,7 +20,7 @@ func start(info):
 		image.data = info.image_data
 		texture.create_from_image(image)
 		image_container.texture = texture
-	
+
 	hint_tooltip = info.comment
 	offset = info.position
 	_on_ImageTask_resize_request(info.size)
@@ -68,7 +68,7 @@ func _On_Option_hide():
 	image_options.disconnect("popup_hide", self, "_On_Option_hide")
 	image_options.get_node("Load").disconnect("pressed", self, "_on_load_pressed")
 	image_options.get_node("VBoxContainer/Comment").disconnect("text_changed", self, "on_comment_changed")
-	
+
 	hint_tooltip = information.comment
 
 

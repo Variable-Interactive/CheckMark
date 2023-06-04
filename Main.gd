@@ -27,7 +27,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("right_click"):
 		right_menu.rect_position = get_global_mouse_position()
 		right_menu.popup()

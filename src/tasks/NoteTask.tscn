@@ -3,14 +3,13 @@
 [ext_resource path="res://src/tasks/NoteTask.gd" type="Script" id=1]
 
 [node name="NoteTask" type="GraphNode"]
-margin_left = 94.0
-margin_top = 130.0
-margin_right = 396.0
-margin_bottom = 373.0
+margin_right = 302.0
+margin_bottom = 243.0
 mouse_filter = 1
 title = "Note Task"
 show_close = true
 resizable = true
+comment = true
 slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color( 1, 1, 1, 1 )
@@ -18,9 +17,6 @@ slot/0/right_enabled = false
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TextEdit" type="TextEdit" parent="."]
 margin_left = 16.0

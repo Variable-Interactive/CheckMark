@@ -14,7 +14,7 @@ var information = {
 	"name" : "Check Box Task",
 	"position" : offset,
 	"state": false,
-	"detail": "" 
+	"detail": ""
 }
 # Called when the node enters the scene tree for the first time.
 func start(info):
@@ -83,7 +83,7 @@ func _on_CheckBox_toggled(button_pressed):
 		main.completed -= 1
 		checked_boxes -= 1
 	main.update_completed()
-	
+
 	information.state = button_pressed
 	animate_progress(button_pressed)
 

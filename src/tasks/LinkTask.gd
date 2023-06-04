@@ -31,7 +31,7 @@ func _on_Options_pressed():
 	link_options.popup_centered()
 	link_options.get_node("VBoxContainer/LineEdit").text = link_button.text
 	link_options.get_node("VBoxContainer/Comment").text = information.comment
-	
+
 	link_options.connect("popup_hide", self, "_On_Option_hide")
 	link_options.get_node("Load").connect("pressed", self, "_on_load_pressed")
 	link_options.get_node("VBoxContainer/Comment").connect("text_changed", self, "on_comment_changed")
@@ -41,7 +41,7 @@ func _On_Option_hide():
 	link_options.disconnect("popup_hide", self, "_On_Option_hide")
 	link_options.get_node("Load").disconnect("pressed", self, "_on_load_pressed")
 	link_options.get_node("VBoxContainer/Comment").disconnect("text_changed", self, "on_comment_changed")
-	
+
 	information.hint = link_options.get_node("VBoxContainer/LineEdit").text
 	information.comment = link_options.get_node("VBoxContainer/Comment").text
 	hint_tooltip = information.comment
