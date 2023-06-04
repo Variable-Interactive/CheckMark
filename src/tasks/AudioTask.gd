@@ -5,40 +5,46 @@ onready var audio_stream = $AudioStreamPlayer2D
 onready var play_pause = $VBoxContainer/VBoxContainer/Play
 onready var timeline = $VBoxContainer/VBoxContainer/HSlider
 onready var audio_options = get_tree().current_scene.get_node("Dialogs/PathOptions")
-var opened
 
-var information = {
-	"type" : "audio_task",
-	"audio" : "res://Tutorial/maldita.ogg",
-	"position" : offset,
-	"comment" : "Comment..."
-}
+var audio_path: String = "res://Tutorial/maldita.ogg"
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	if not opened:
-		information.position = (get_tree().current_scene.get_viewport().get_mouse_position() + get_parent().scroll_offset) / get_parent().zoom
-		start(information)
+func serialize() -> Dictionary:
+	var information = {
+		"type" : "audio_task",
+		"audio" : audio_path,
+		"position" : offset,
+		"comment" : hint_tooltip
+	}
+	return information
 
 
-func start(info):
-	hint_tooltip = info.comment
+func deserialize(information: Dictionary):
+	# default values
+	audio_stream.stream = path_to_stream(audio_path)
+	offset = (
+		(
+			get_tree().current_scene.get_viewport().get_mouse_position()
+			+ get_parent().scroll_offset
+		) / get_parent().zoom
+	)
+	hint_tooltip = "Comment..."
 
-	audio_stream.stream = path_to_stream(info.audio)
+	# overrides (information)
+	if information.has("audio"):
+		audio_path = information["audio"]
+		audio_stream.stream = path_to_stream(audio_path)
+		if audio_stream.stream != null:
+			timeline.editable = true
+			play_pause.disabled = false
+		else:
+			timeline.editable = false
+			play_pause.disabled = true
 
-	offset = info.position
-	if audio_stream.stream != null:
-		timeline.editable = true
-		play_pause.disabled = false
-	else:
-		timeline.editable = false
-		play_pause.disabled = true
-	information = info
-	opened = true
+	if information.has("position"):
+		offset = information["position"]
 
-
-func _on_AudioTask_dragged(_from, to):
-	information.position = to
+	if information.has("comment"):
+		hint_tooltip = information["comment"]
 
 
 func _input(_event: InputEvent) -> void:
@@ -81,32 +87,18 @@ func _on_Play_pressed():
 
 func _on_Options_pressed():
 	audio_options.popup_centered()
-	audio_options.get_node("VBoxContainer/LineEdit").text = information.audio
-	audio_options.get_node("VBoxContainer/Comment").text = information.comment
+	audio_options.get_node("VBoxContainer/LineEdit").text = audio_path
+	audio_options.get_node("VBoxContainer/Comment").text = hint_tooltip
 
+	# TODO have some method to auto connest signals to options
 	audio_options.connect("popup_hide", self, "_On_Option_hide")
 	audio_options.get_node("Load").connect("pressed", self, "_on_load_pressed")
 	audio_options.get_node("VBoxContainer/Comment").connect("text_changed", self, "on_comment_changed")
 
 
-func on_comment_changed():
-	information.comment = audio_options.get_node("VBoxContainer/Comment").text
-
-
-func _On_Option_hide():
-	audio_options.disconnect("popup_hide", self, "_On_Option_hide")
-	audio_options.get_node("Load").disconnect("pressed", self, "_on_load_pressed")
-	audio_options.get_node("VBoxContainer/Comment").disconnect("text_changed", self, "on_comment_changed")
-
-	hint_tooltip = information.comment
-
-
 func _on_load_pressed():
 	var text :String = audio_options.get_node("VBoxContainer/LineEdit").text
 	audio_stream.stream = path_to_stream(text)
-	information.audio = text
-
-	print(audio_stream.stream)
 
 	if audio_stream.stream == null:
 		timeline.editable = false
@@ -118,6 +110,17 @@ func _on_load_pressed():
 		play_pause.disabled = false
 
 
+func on_comment_changed():
+	hint_tooltip = audio_options.get_node("VBoxContainer/Comment").text
+
+
+func _On_Option_hide():
+	audio_options.disconnect("popup_hide", self, "_On_Option_hide")
+	audio_options.get_node("Load").disconnect("pressed", self, "_on_load_pressed")
+	audio_options.get_node("VBoxContainer/Comment").disconnect("text_changed", self, "on_comment_changed")
+
+
+# Helper Function
 func path_to_stream(path):
 	var new_stream
 	if path.to_lower().ends_with(".ogg"):

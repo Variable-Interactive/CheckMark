@@ -1,6 +1,12 @@
 extends Panel
 
-enum right_menu_items {NEW_NOTE_TASK, NEW_CHECKBOX_TASK, NEW_IMAGE_TASK, NEW_AUDIO_TASK, NEW_LINK_TASK}
+enum right_menu_items {
+#	NEW_NOTE_TASK,
+#	NEW_CHECKBOX_TASK,
+#	NEW_IMAGE_TASK,
+	NEW_AUDIO_TASK,
+#	NEW_LINK_TASK
+	}
 
 var total_completed :int = 0
 var completed :int = 0
@@ -24,6 +30,10 @@ func _ready():
 		if !child.is_connected("switch", self, "Switch_board"):
 			child.connect("switch", self, "Switch_board")
 
+
+func setup_right_menu():
+	for key in right_menu_items.keys():
+		right_menu.add_item(key.replace("_", " ").capitalize())
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -61,34 +71,26 @@ func _input(_event: InputEvent) -> void:
 		current_board.zoom = 0.579 + (1.149 * factor)
 
 
-func setup_right_menu():
-	right_menu.add_item("New Note Task")
-	right_menu.add_item("New CheckBox Task")
-	right_menu.add_item("New Image Task")
-	right_menu.add_item("New Audio Task")
-	right_menu.add_item("New Link Task")
-
-
 func update_completed():
 	$VBoxContainer/Stats/Completed.text = str("Completed ", completed, " out of ", total_completed)
 
 
 func _on_RightMenu_index_pressed(index):
-	if index == right_menu_items.NEW_NOTE_TASK:
-		var new_task = preload("res://src/tasks/NoteTask.tscn").instance()
-		current_board.add_child(new_task)
-	elif index == right_menu_items.NEW_CHECKBOX_TASK:
-		var new_task = preload("res://src/tasks/CheckboxTask.tscn").instance()
-		current_board.add_child(new_task)
-	elif index == right_menu_items.NEW_IMAGE_TASK:
-		var new_task = preload("res://src/tasks/ImageTask.tscn").instance()
-		current_board.add_child(new_task)
-	elif index == right_menu_items.NEW_AUDIO_TASK:
-		var new_task = preload("res://src/tasks/AudioTask.tscn").instance()
-		current_board.add_child(new_task)
-	elif index == right_menu_items.NEW_LINK_TASK:
-		var new_task = preload("res://src/tasks/LinkTask.tscn").instance()
-		current_board.add_child(new_task)
+	match index:
+#		right_menu_items.NEW_NOTE_TASK:
+#			var new_task = preload("res://src/tasks/NoteTask.tscn").instance()
+#			current_board.add_child(new_task)
+#		right_menu_items.NEW_CHECKBOX_TASK:
+#			var new_task = preload("res://src/tasks/CheckboxTask.tscn").instance()
+#			current_board.add_child(new_task)
+#		right_menu_items.NEW_IMAGE_TASK:
+#			var new_task = preload("res://src/tasks/ImageTask.tscn").instance()
+#			current_board.add_child(new_task)
+		right_menu_items.NEW_AUDIO_TASK:
+			handle_loading_task({"type": "audio_task"})
+#		right_menu_items.NEW_LINK_TASK:
+#			var new_task = preload("res://src/tasks/LinkTask.tscn").instance()
+#			current_board.add_child(new_task)
 
 
 func _on_Main_tree_exiting():
@@ -99,7 +101,7 @@ func save_project(path :String):
 	data = []
 	for children in current_board.get_children():
 		if children.get_class() == "GraphNode":
-			data.append(children.information)
+			data.append(children.serialize())
 	var file := File.new()
 	var _error = file.open(path, File.WRITE)
 	if _error == OK:
@@ -121,31 +123,31 @@ func load_project(path :String):
 
 		data = file.get_var()
 		for info in data:
-			handle_loading(info)
+			handle_loading_task(info)
 		file.close()
 
 
-func handle_loading(info :Dictionary):
-	if info.type == "image_task":
-		var new_task = preload("res://src/tasks/ImageTask.tscn").instance()
-		current_board.add_child(new_task)
-		new_task.start(info)
-	if info.type == "checkbox_task":
-		var new_task = preload("res://src/tasks/CheckboxTask.tscn").instance()
-		current_board.add_child(new_task)
-		new_task.start(info)
-	if info.type == "audio_task":
+func handle_loading_task(info :Dictionary):
+#	if info.type == "image_task":
+#		var new_task = preload("res://src/tasks/ImageTask.tscn").instance()
+#		current_board.add_child(new_task)
+#		new_task.start(info)
+#	if info.type == "checkbox_task":
+#		var new_task = preload("res://src/tasks/CheckboxTask.tscn").instance()
+#		current_board.add_child(new_task)
+#		new_task.start(info)
+	if info["type"] == "audio_task":
 		var new_task = preload("res://src/tasks/AudioTask.tscn").instance()
 		current_board.add_child(new_task)
-		new_task.start(info)
-	if info.type == "note_task":
-		var new_task = preload("res://src/tasks/NoteTask.tscn").instance()
-		current_board.add_child(new_task)
-		new_task.start(info)
-	if info.type == "link_task":
-		var new_task = preload("res://src/tasks/LinkTask.tscn").instance()
-		current_board.add_child(new_task)
-		new_task.start(info)
+		new_task.deserialize(info)
+#	if info.type == "note_task":
+#		var new_task = preload("res://src/tasks/NoteTask.tscn").instance()
+#		current_board.add_child(new_task)
+#		new_task.start(info)
+#	if info.type == "link_task":
+#		var new_task = preload("res://src/tasks/LinkTask.tscn").instance()
+#		current_board.add_child(new_task)
+#		new_task.start(info)
 
 
 func _on_RightMenu_mouse_exited():
