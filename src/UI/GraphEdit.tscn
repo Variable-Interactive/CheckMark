@@ -1,8 +1,0 @@
-[gd_scene format=2]
-
-[node name="GraphEdit" type="GraphEdit"]
-margin_right = 1024.0
-margin_bottom = 566.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-snap_distance = 10

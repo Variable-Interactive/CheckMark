@@ -33,18 +33,17 @@ func deserialize(information: Dictionary):
 	if information.has("audio"):
 		audio_path = information["audio"]
 		audio_stream.stream = path_to_stream(audio_path)
-		if audio_stream.stream != null:
-			timeline.editable = true
-			play_pause.disabled = false
-		else:
-			timeline.editable = false
-			play_pause.disabled = true
-
 	if information.has("position"):
 		offset = information["position"]
-
 	if information.has("comment"):
 		hint_tooltip = information["comment"]
+
+	if audio_stream.stream != null:
+		timeline.editable = true
+		play_pause.disabled = false
+	else:
+		timeline.editable = false
+		play_pause.disabled = true
 
 
 func _input(_event: InputEvent) -> void:

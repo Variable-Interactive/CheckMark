@@ -8,12 +8,33 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "GraphEdit",
+"class": "MindMap",
+"language": "GDScript",
+"path": "res://src/UI/MindMap/MindMap.gd"
+}, {
+"base": "Reference",
+"class": "Project",
+"language": "GDScript",
+"path": "res://Classes/Project.gd"
+} ]
+_global_script_class_icons={
+"MindMap": "",
+"Project": ""
+}
+
 [application]
 
 config/name="GodoPlanner"
 config/description="Provides Boards to organize your projects"
 run/main_scene="res://Main.tscn"
 config/icon="res://assets/icons/icon.png"
+
+[autoload]
+
+Global="*res://src/Autoload/Global.gd"
+OpenSave="*res://src/Autoload/OpenSave.gd"
 
 [input]
 

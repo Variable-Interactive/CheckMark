@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/UI/TopMenuContainer/TopMenuContainer.gd" type="Script" id=1]
+
+[node name="TopMenuContainer" type="Panel"]
+margin_right = 1024.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
+script = ExtResource( 1 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_bottom = 1.0
+
+[node name="OpenBoardButton" type="Button" parent="HBoxContainer"]
+margin_right = 88.0
+margin_bottom = 25.0
+text = "Open Board"
+
+[node name="SaveBoardButton" type="Button" parent="HBoxContainer"]
+margin_left = 92.0
+margin_right = 174.0
+margin_bottom = 25.0
+text = "Save Board"
+
+[connection signal="pressed" from="HBoxContainer/OpenBoardButton" to="." method="_on_OpenBoardButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/SaveBoardButton" to="." method="_on_SaveBoardButton_pressed"]

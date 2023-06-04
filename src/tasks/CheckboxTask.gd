@@ -26,7 +26,7 @@ func start(info):
 	if not added_to_check_list:
 		main.total_completed += 1
 		added_to_check_list = true
-		main.update_completed()
+		Global.current_project.update_completed_tasks()
 	information = info
 	opened = true
 
@@ -82,7 +82,7 @@ func _on_CheckBox_toggled(button_pressed):
 	else:
 		main.completed -= 1
 		checked_boxes -= 1
-	main.update_completed()
+	Global.current_project.update_completed_tasks()
 
 	information.state = button_pressed
 	animate_progress(button_pressed)

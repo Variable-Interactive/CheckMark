@@ -28,7 +28,7 @@ func Get_date_day():
 		prefix = "rd  of "
 	else:
 		prefix = "th  of "
-	
+
 	if OS.get_datetime().weekday == 1:
 		curr_week = "Monday"
 	elif OS.get_datetime().weekday == 2:
@@ -43,8 +43,8 @@ func Get_date_day():
 		curr_week = "Saturday"
 	else:
 		curr_week = "Sunday"
-	
-	
+
+
 	if OS.get_datetime().month == 1:
 		date = "January"
 	elif OS.get_datetime().month == 2:
@@ -69,7 +69,7 @@ func Get_date_day():
 		date = "November"
 	else:
 		date = "December"
-	
+
 	var info = { "Date" : str(OS.get_datetime().day, prefix , date , "," , OS.get_datetime().year),
 				 "Day": str(curr_week),
 				"Time": str(OS.get_time().hour, ":", OS.get_time().minute, ":", OS.get_time().second)
