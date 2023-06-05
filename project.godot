@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/tasks/BaseTask.gd"
 }, {
+"base": "VBoxContainer",
+"class": "CollapsibleContainer",
+"language": "GDScript",
+"path": "res://src/UI/Nodes/CollapsibleContainer.gd"
+}, {
 "base": "GraphEdit",
 "class": "MindMap",
 "language": "GDScript",
@@ -26,6 +31,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "BaseTask": "",
+"CollapsibleContainer": "",
 "MindMap": "",
 "Project": ""
 }

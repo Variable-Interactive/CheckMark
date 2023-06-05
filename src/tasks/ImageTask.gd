@@ -2,7 +2,7 @@ extends BaseTask
 
 onready var image_container: TextureRect = $VBoxContainer/Image
 
-var image_path = "res://assets/icons/icon.png"
+var image_path = "res://assets/graphics/icons/icon.png"
 
 
 func serialize() -> Dictionary:

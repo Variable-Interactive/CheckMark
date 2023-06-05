@@ -7,6 +7,8 @@ onready var timeline = $VBoxContainer/VBoxContainer/HSlider
 
 var audio_path: String = "res://Tutorial/maldita.ogg"
 
+var texture_play := preload("res://assets/graphics/misc/music_2.png")
+var texture_pause := preload("res://assets/graphics/misc/music_1.png")
 
 func serialize() -> Dictionary:
 	var information := .serialize()
@@ -74,18 +76,18 @@ func _on_HSlider_value_changed(value):
 
 func _on_Play_pressed():
 	if not audio_stream.playing:
-		$VBoxContainer/TextureRect.texture = preload("res://assets/icons/music_2.png")
+		$VBoxContainer/TextureRect.texture = texture_pause
 		audio_stream.play(timeline.value)
 		timeline.editable = false
 		play_pause.text = "Pause"
 	elif audio_stream.stream_paused:
-		$VBoxContainer/TextureRect.texture = preload("res://assets/icons/music_2.png")
+		$VBoxContainer/TextureRect.texture = texture_play
 		audio_stream.stream_paused = false
 		audio_stream.play(timeline.value)
 		timeline.editable = false
 		play_pause.text = "Pause"
 	elif not audio_stream.stream_paused:
-		$VBoxContainer/TextureRect.texture = preload("res://assets/icons/music_1.png")
+		$VBoxContainer/TextureRect.texture = texture_pause
 		timeline.editable = true
 		audio_stream.stream_paused = true
 		play_pause.text = "Play"

@@ -21,7 +21,7 @@ func load_project(path :String):
 		if error != OK:
 			return
 
-		var button = preload("res://src/UI/Board Button.tscn").instance()
+		var button = preload("res://src/UI/Nodes/BoardButton.tscn").instance()
 		Global.boards.add_child(button)
 		button.text = str("Board ", button.get_index()+1)
 		button.connect("switch", Global, "change_project")

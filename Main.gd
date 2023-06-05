@@ -73,7 +73,7 @@ func _on_RightMenu_index_pressed(index):
 		Global.RightMenuItems.NEW_NOTE_TASK:
 			project.add_task({"type": "note_task"})
 		Global.RightMenuItems.NEW_CHECKBOX_TASK:
-			project.add_task({"type": "audio_task"})
+			project.add_task({"type": "checkbox_task"})
 		Global.RightMenuItems.NEW_IMAGE_TASK:
 			project.add_task({"type": "image_task"})
 		Global.RightMenuItems.NEW_AUDIO_TASK:

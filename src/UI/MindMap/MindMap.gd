@@ -24,15 +24,15 @@ func new_render():
 
 func render_task(info: Dictionary):
 	var new_task: GraphNode
-	if info.type == "image_task":
+	if info["type"] == "image_task":
 		new_task = preload("res://src/tasks/ImageTask.tscn").instance()
-	if info.type == "checkbox_task":
+	if info["type"] == "checkbox_task":
 		new_task = preload("res://src/tasks/CheckboxTask.tscn").instance()
 	if info["type"] == "audio_task":
 		new_task = preload("res://src/tasks/AudioTask.tscn").instance()
-	if info.type == "note_task":
+	if info["type"] == "note_task":
 		new_task = preload("res://src/tasks/NoteTask.tscn").instance()
-	if info.type == "link_task":
+	if info["type"] == "link_task":
 		new_task = preload("res://src/tasks/LinkTask.tscn").instance()
 	if new_task:
 		new_task.connect("close_request", self, "remove_task", [info])
