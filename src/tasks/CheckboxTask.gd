@@ -16,7 +16,7 @@ var information = {
 	"state": false,
 	"detail": ""
 }
-# Called when the node enters the scene tree for the first time.
+
 func start(info):
 	name_label.text = info.name
 	offset = info.position

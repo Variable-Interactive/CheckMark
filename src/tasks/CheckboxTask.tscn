@@ -17,8 +17,7 @@ slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 1 )
 __meta__ = {
-"_edit_group_": true,
-"_edit_use_anchors_": false
+"_edit_group_": true
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -61,8 +60,6 @@ text = "Details"
 
 [node name="Tween" type="Tween" parent="."]
 
-[connection signal="close_request" from="." to="." method="_on_CheckboxTask_close_request"]
-[connection signal="dragged" from="." to="." method="_on_CheckboxTask_dragged"]
 [connection signal="toggled" from="VBoxContainer/HBoxContainer/CheckBox" to="." method="_on_CheckBox_toggled"]
 [connection signal="focus_entered" from="VBoxContainer/Name" to="." method="_on_Name_focus_entered"]
 [connection signal="text_entered" from="VBoxContainer/Name" to="." method="_on_LineEdit_text_entered"]

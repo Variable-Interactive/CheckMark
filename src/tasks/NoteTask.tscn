@@ -24,8 +24,3 @@ margin_top = 24.0
 margin_right = 286.0
 margin_bottom = 24.0
 wrap_enabled = true
-
-[connection signal="close_request" from="." to="." method="_on_NoteTask_close_request"]
-[connection signal="dragged" from="." to="." method="_on_NoteTask_dragged"]
-[connection signal="resize_request" from="." to="." method="_on_NoteTask_resize_request"]
-[connection signal="text_changed" from="TextEdit" to="." method="_on_TextEdit_text_changed"]

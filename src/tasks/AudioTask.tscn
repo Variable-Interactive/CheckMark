@@ -66,7 +66,6 @@ text = "Options"
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
-[connection signal="close_request" from="." to="." method="_on_AudioTask_close_request"]
 [connection signal="value_changed" from="VBoxContainer/VBoxContainer/HSlider" to="." method="_on_HSlider_value_changed"]
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/Play" to="." method="_on_Play_pressed"]
 [connection signal="pressed" from="VBoxContainer/VBoxContainer/Options" to="." method="_on_Options_pressed"]

@@ -1,101 +1,64 @@
-extends GraphNode
+extends BaseTask
 
-onready var image_container = $VBoxContainer/Image
-onready var image_options = get_tree().current_scene.get_node("Dialogs/PathOptions")
-var opened = false
+onready var image_container: TextureRect = $VBoxContainer/Image
 
-var information = {
-	"type" : "image_task",
-	"image_data" : null,
-	"position" : offset,
-	"size" : rect_size,
-	"path" : "",
-	"comment" : "Comment..."
-}
-
-func start(info):
-	var texture = ImageTexture.new()
-	if info.image_data != null:
-		var image := Image.new()
-		image.data = info.image_data
-		texture.create_from_image(image)
-		image_container.texture = texture
-
-	hint_tooltip = info.comment
-	offset = info.position
-	_on_ImageTask_resize_request(info.size)
-	update_image_size()
-	information = info
-	opened = true
+var image_path = "res://assets/icons/icon.png"
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	if not opened:
-		information.position = (get_tree().current_scene.get_viewport().get_mouse_position() + get_parent().scroll_offset) / get_parent().zoom
-		start(information)
+func serialize() -> Dictionary:
+	var information = .serialize()
+	information["image_data"] = image_container.texture.get_data().data
+	information["path"] = image_path
+	return information
 
 
-func _on_ImageTask_resize_request(new_minsize):
-	image_container.rect_min_size.y = 0
-	rect_size = new_minsize
-	update_image_size()
-	information.size = rect_size
+func deserialize(information) -> void:
+	# overrides (information)
+	if information.has("image_data"):
+		var image_data = information["image_data"]
+		if image_data != null:
+			var image := Image.new()
+			image.data = image_data
+			var texture = ImageTexture.new()
+			texture.create_from_image(image)
+			image_container.texture = texture
+	if information.has("path"):
+		image_path = information["path"]
+	.deserialize(information)
 
 
-func _on_ImageTask_dragged(_from, to):
-	information.position = to
+func get_type():
+	return "image_task"
 
 
-func update_image_size():
-	image_container.rect_min_size.y = rect_size.y - $VBoxContainer/Options.rect_size.y
+func show_options():
+	Global.task_options.get_node("VBoxContainer/LineEdit").text = image_path
+	Global.task_options.get_node("VBoxContainer/Comment").text = hint_tooltip
+	.show_options()
 
 
-func _on_Options_pressed():
-	image_options.popup_centered()
-	image_options.get_node("VBoxContainer/LineEdit").text = information.path
-	image_options.get_node("VBoxContainer/Comment").text = information.comment
-	image_options.connect("popup_hide", self, "_On_Option_hide")
-	image_options.get_node("Load").connect("pressed", self, "_on_load_pressed")
-	image_options.get_node("VBoxContainer/Comment").connect("text_changed", self, "on_comment_changed")
-
-
-func on_comment_changed():
-	information.comment = image_options.get_node("VBoxContainer/Comment").text
-
-
-func _On_Option_hide():
-	image_options.disconnect("popup_hide", self, "_On_Option_hide")
-	image_options.get_node("Load").disconnect("pressed", self, "_on_load_pressed")
-	image_options.get_node("VBoxContainer/Comment").disconnect("text_changed", self, "on_comment_changed")
-
-	hint_tooltip = information.comment
-
-
-
-func _on_load_pressed():
-	var text = image_options.get_node("VBoxContainer/LineEdit").text
-	information.path = text
-	if text.begins_with("https://"):
+func load_options():
+	image_path = Global.task_options.get_node("VBoxContainer/LineEdit").text
+	if image_path.begins_with("https://"):
 		var http_request = HTTPRequest.new()
 		add_child(http_request)
-		http_request.connect("request_completed", self, "_http_request_completed")
-
-		var error = http_request.request(text)
+		http_request.connect("request_completed", self, "_http_request_completed", [http_request])
+		var error = http_request.request(image_path)
 		if error != OK:
 			push_error("An error occurred in the HTTP request.")
 	else:
 		var image := Image.new()
-		var err = image.load(text)
+		var err = image.load(image_path)
 		if err == OK:
-			information.image_data = image.data
 			var texture = ImageTexture.new()
 			texture.create_from_image(image)
 			image_container.texture = texture
 
 
-func _http_request_completed(_result, _response_code, _headers, body):
+func _http_request_completed(_result, _response_code, _headers, body, http_node: HTTPRequest):
+	http_node.queue_free()
 	var image = Image.new()
+	# Http images are notorious for having the wrong image extensions
 	var error_png = image.load_png_from_buffer(body)
 	if error_png != OK:
 		var error_jpg = image.load_jpg_from_buffer(body)
@@ -108,14 +71,7 @@ func _http_request_completed(_result, _response_code, _headers, body):
 					if error_bmp != OK:
 						push_error("Couldn't load the image.")
 
-	information.image_data = image.data
 	var texture = ImageTexture.new()
 	texture.create_from_image(image)
-
 	# Display the image in a TextureRect node.
 	image_container.texture = texture
-
-
-func _on_ImageTask_close_request():
-	queue_free()
-

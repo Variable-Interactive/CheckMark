@@ -1,74 +1,41 @@
-extends GraphNode
+extends BaseTask
 
 onready var link_button = $LinkButton
-onready var link_options = get_tree().current_scene.get_node("Dialogs/PathOptions")
-var opened = false
 
-var information = {
-	"type" : "link_task",
-	"link" : "https://godotengine.org/",
-	"position" : offset,
-	"size" : rect_size,
-	"comment" : "Comment..."
-}
+var url := "https://godotengine.org/"
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	if not opened:
-		information.position = (get_tree().current_scene.get_viewport().get_mouse_position() + get_parent().scroll_offset) / get_parent().zoom
-		start(information)
+func serialize() -> Dictionary:
+	var information = .serialize()
+	information["url"] = url
+	return information
 
 
-func start(info):
-	hint_tooltip = info.comment
-	link_button.text = info.link
-	offset = info.position
-	_on_LinkTask_resize_request(info.size)
-	information = info
-	opened = true
-
-func _on_Options_pressed():
-	link_options.popup_centered()
-	link_options.get_node("VBoxContainer/LineEdit").text = link_button.text
-	link_options.get_node("VBoxContainer/Comment").text = information.comment
-
-	link_options.connect("popup_hide", self, "_On_Option_hide")
-	link_options.get_node("Load").connect("pressed", self, "_on_load_pressed")
-	link_options.get_node("VBoxContainer/Comment").connect("text_changed", self, "on_comment_changed")
+func deserialize(information) -> void:
+	# overrides (information)
+	if information.has("url"):
+		url = information["url"]
+		link_button.text = url
+	.deserialize(information)
 
 
-func _On_Option_hide():
-	link_options.disconnect("popup_hide", self, "_On_Option_hide")
-	link_options.get_node("Load").disconnect("pressed", self, "_on_load_pressed")
-	link_options.get_node("VBoxContainer/Comment").disconnect("text_changed", self, "on_comment_changed")
-
-	information.hint = link_options.get_node("VBoxContainer/LineEdit").text
-	information.comment = link_options.get_node("VBoxContainer/Comment").text
-	hint_tooltip = information.comment
+func show_options():
+	# Todo add these two to the base class later
+	Global.task_options.get_node("VBoxContainer/LineEdit").text = link_button.text
+	Global.task_options.get_node("VBoxContainer/Comment").text = hint_tooltip
+	.show_options()
 
 
-func on_comment_changed():
-	information.comment = link_options.get_node("VBoxContainer/Comment").text
+func load_options():
+	url = Global.task_options.get_node("VBoxContainer/LineEdit").text
+	link_button.text = url
 
 
-func _on_load_pressed():
-	var text = link_options.get_node("VBoxContainer/LineEdit").text
-	link_button.text = text
-	information.link = text
-	link_options.hide()
-
-
-func _on_LinkTask_resize_request(new_minsize):
+func resize_task(new_minsize):
 	rect_size.x = new_minsize.x
-	information.size = new_minsize
 
 
-func _on_LinkTask_dragged(_from, to):
-	information.position = to
-
-
-func _on_LinkTask_close_request():
-	queue_free()
+func get_type():
+	return "link_task"
 
 
 func _on_LinkButton_pressed():

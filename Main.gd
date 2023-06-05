@@ -71,15 +71,15 @@ func _on_RightMenu_index_pressed(index):
 	var project: Project = Global.current_project
 	match index:
 		Global.RightMenuItems.NEW_NOTE_TASK:
-			project.add_task({"type": "audio_task"})
+			project.add_task({"type": "note_task"})
 		Global.RightMenuItems.NEW_CHECKBOX_TASK:
 			project.add_task({"type": "audio_task"})
 		Global.RightMenuItems.NEW_IMAGE_TASK:
-			project.add_task({"type": "audio_task"})
+			project.add_task({"type": "image_task"})
 		Global.RightMenuItems.NEW_AUDIO_TASK:
 			project.add_task({"type": "audio_task"})
 		Global.RightMenuItems.NEW_LINK_TASK:
-			project.add_task({"type": "audio_task"})
+			project.add_task({"type": "link_task"})
 
 
 func _on_RightMenu_mouse_exited():

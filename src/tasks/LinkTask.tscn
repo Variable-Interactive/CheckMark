@@ -22,9 +22,6 @@ slot/1/right_enabled = false
 slot/1/right_type = 0
 slot/1/right_color = Color( 1, 1, 1, 1 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LinkButton" type="Button" parent="."]
 margin_left = 16.0
@@ -46,8 +43,4 @@ margin_right = 149.0
 margin_bottom = 20.0
 text = "Options"
 
-[connection signal="close_request" from="." to="." method="_on_LinkTask_close_request"]
-[connection signal="dragged" from="." to="." method="_on_LinkTask_dragged"]
-[connection signal="resize_request" from="." to="." method="_on_LinkTask_resize_request"]
 [connection signal="pressed" from="LinkButton" to="." method="_on_LinkButton_pressed"]
-[connection signal="pressed" from="CentreContainer/Options" to="." method="_on_Options_pressed"]

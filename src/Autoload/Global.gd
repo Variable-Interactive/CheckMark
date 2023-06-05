@@ -16,6 +16,7 @@ onready var boards := control.find_node("Boards") as VBoxContainer
 onready var mind_map := control.find_node("MindMap") as MindMap
 onready var status_bar := control.find_node("StatusBar")
 
+onready var task_options: WindowDialog = control.find_node("PathOptions")
 onready var open_board: FileDialog = control.find_node("OpenBoard")
 onready var save_board: FileDialog = control.find_node("SaveBoard")
 
