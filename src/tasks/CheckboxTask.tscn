@@ -36,7 +36,7 @@ __meta__ = {
 unique_name_in_owner = true
 margin_right = 192.0
 margin_bottom = 24.0
-text = "Check Box Task"
+text = "Introduction"
 align = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="VBoxContainer"]
@@ -51,28 +51,47 @@ margin_top = 46.0
 margin_right = 192.0
 margin_bottom = 66.0
 size_flags_vertical = 3
-text = "Details"
+text = "Task Details"
 
-[node name="Content" type="HBoxContainer" parent="VBoxContainer/CollapsibleContainer"]
+[node name="Content" type="TabContainer" parent="VBoxContainer/CollapsibleContainer"]
 visible = false
 margin_top = 24.0
-margin_right = 260.0
-margin_bottom = 154.0
+margin_right = 580.0
+margin_bottom = 174.0
+rect_min_size = Vector2( 580, 150 )
 size_flags_vertical = 3
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/CollapsibleContainer/Content"]
+[node name="Preview" type="VBoxContainer" parent="VBoxContainer/CollapsibleContainer/Content"]
 unique_name_in_owner = true
-margin_right = 24.0
-margin_bottom = 24.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
 size_flags_vertical = 0
 
-[node name="Detail" type="TextEdit" parent="VBoxContainer/CollapsibleContainer/Content"]
+[node name="Text" type="TextEdit" parent="VBoxContainer/CollapsibleContainer/Content"]
 unique_name_in_owner = true
-margin_left = 28.0
-margin_right = 260.0
-margin_bottom = 130.0
-rect_min_size = Vector2( 230, 130 )
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
 size_flags_horizontal = 3
+text = "[] incomplete
+[x] complete
+You can also use lines without any checkmark
+
+BB code is also possible e.g
+[u]Underlined text[/u]
+[color=green]Coloured[/color] text
+[img]res://assets/graphics/icons/icon.png[/img] (Image) etc...
+
+For morre information on bbcode visit
+https://docs.godotengine.org/en/stable/tutorials/ui/bbcode_in_richtextlabel.html"
 show_line_numbers = true
 minimap_draw = true
 minimap_width = 25
@@ -80,6 +99,6 @@ minimap_width = 25
 [node name="Tween" type="Tween" parent="."]
 
 [connection signal="focus_entered" from="VBoxContainer/Title" to="." method="_on_Name_focus_entered"]
+[connection signal="tab_changed" from="VBoxContainer/CollapsibleContainer/Content" to="." method="_on_Content_tab_changed"]
 [connection signal="visibility_changed" from="VBoxContainer/CollapsibleContainer/Content" to="." method="_on_Content_visibility_changed"]
-[connection signal="toggled" from="VBoxContainer/CollapsibleContainer/Content/CheckBox" to="." method="_on_CheckBox_toggled"]
-[connection signal="text_changed" from="VBoxContainer/CollapsibleContainer/Content/Detail" to="." method="_on_Detail_text_changed"]
+[connection signal="text_changed" from="VBoxContainer/CollapsibleContainer/Content/Text" to="." method="_on_Detail_text_changed"]

@@ -47,11 +47,9 @@ func add_task(info :Dictionary):  # Task removal is handled by MindMap.gd
 func _get_completed_number() -> Vector2:
 	var total_checks: int = 0
 	var completed: int = 0
+	var complete_total_checks = Vector2.ZERO
 	for task in tasks:
-		if task.has("type"):
-			if task["type"] == "checkbox_task":
-				total_checks += 1
-				if task.has("state"):
-					if task["state"] == true:
-						completed += task.checked_boxes
-	return Vector2(completed, total_checks)
+		if task is GraphNode:
+			if task.has_method("get_completed_total_checks"):
+				complete_total_checks += task.call("get_checkbox_info")
+	return complete_total_checks
