@@ -18,12 +18,14 @@ func deserialize(information: Dictionary):
 	if information.has("detail"):
 		detail.text = information["detail"]
 		hint_tooltip = information.detail
-	Global.current_project.update_completed_tasks()
 	update_preview()
 	.deserialize(information)
 
 
 func close_node() -> void:
+	for child in preview.get_children():
+		child.queue_free()
+	yield(get_tree(), "idle_frame")
 	Global.current_project.update_completed_tasks()
 	.close_node()
 
@@ -33,11 +35,10 @@ func get_type():
 
 
 func get_completed_total_checks() -> Vector2:
-	var comp := 0
+	var result := Vector2.ZERO
 	for check in preview.get_children():
-		if check.get_state() == true:
-			comp += 1
-	return Vector2(comp, preview.get_child_count())
+		result += check.get_contribution()
+	return result
 
 
 func update_preview():
@@ -49,12 +50,20 @@ func update_preview():
 		check.bblize_text(detail.get_line(l))
 		check.connect("text_changed", self, "update_detail_line")
 
+	yield(get_tree(), "idle_frame")
+	Global.current_project.update_completed_tasks()
+	animate_progress()
+
 
 func update_detail_line(new_text: String, index):
 	detail.set_line(index, new_text)
+	yield(get_tree(), "idle_frame")
+	Global.current_project.update_completed_tasks()
+	animate_progress()
+
 
 func _on_Name_focus_entered():
-	yield(get_tree().create_timer(0.1), "timeout")
+	yield(get_tree(), "idle_frame")
 	name_label.select_all()
 
 
@@ -67,11 +76,6 @@ func _on_Detail_text_changed() -> void:
 	hint_tooltip = detail.text
 
 
-func _on_CheckBox_toggled(button_pressed):
-	Global.current_project.update_completed_tasks()
-	animate_progress(button_pressed)
-
-
 func _on_Content_visibility_changed() -> void:
 	if $VBoxContainer/CollapsibleContainer/Content.visible:
 		pass
@@ -80,11 +84,11 @@ func _on_Content_visibility_changed() -> void:
 		resize_task(Vector2(rect_size.x, 0))
 
 
-func animate_progress(value :bool):
-	var tween = $Tween
+func animate_progress():
+	var value = get_completed_total_checks()
+	var percent: float = 0
+	if value.y != 0:
+		percent = (value.x / value.y) * 100
+	var tween = get_tree().create_tween()
 	var progress = $VBoxContainer/ProgressBar
-	if value:
-		tween.interpolate_property(progress, "value", progress.value, 100, 0.2)
-	else:
-		tween.interpolate_property(progress, "value", progress.value, 0, 0.2)
-	tween.start()
+	tween.tween_property(progress, "value", percent, 0.2)

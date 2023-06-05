@@ -48,8 +48,7 @@ func _get_completed_number() -> Vector2:
 	var total_checks: int = 0
 	var completed: int = 0
 	var complete_total_checks = Vector2.ZERO
-	for task in tasks:
-		if task is GraphNode:
-			if task.has_method("get_completed_total_checks"):
-				complete_total_checks += task.call("get_checkbox_info")
+	for task in Global.mind_map.get_children():
+		if task.has_method("get_completed_total_checks"):
+			complete_total_checks += task.call("get_completed_total_checks")
 	return complete_total_checks

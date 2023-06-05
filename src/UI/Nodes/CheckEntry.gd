@@ -19,8 +19,13 @@ func bblize_text(text: String):
 	$Text.bbcode_text = text
 
 
-func get_state():
-	return $CheckBox.pressed
+func get_contribution():
+	if $CheckBox.visible:
+		if $CheckBox.pressed:
+			return Vector2 (1, 1)
+		else:
+			return Vector2 (0, 1)
+	return Vector2.ZERO
 
 
 func _on_CheckBox_toggled(button_pressed: bool) -> void:

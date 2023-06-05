@@ -43,6 +43,7 @@ func get_type():
 
 func close_node() -> void:
 	queue_free()
+	Global.current_project.update_completed_tasks()
 
 
 func resize_task(new_minsize):

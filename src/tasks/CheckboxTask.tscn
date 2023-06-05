@@ -96,8 +96,6 @@ show_line_numbers = true
 minimap_draw = true
 minimap_width = 25
 
-[node name="Tween" type="Tween" parent="."]
-
 [connection signal="focus_entered" from="VBoxContainer/Title" to="." method="_on_Name_focus_entered"]
 [connection signal="tab_changed" from="VBoxContainer/CollapsibleContainer/Content" to="." method="_on_Content_tab_changed"]
 [connection signal="visibility_changed" from="VBoxContainer/CollapsibleContainer/Content" to="." method="_on_Content_visibility_changed"]
