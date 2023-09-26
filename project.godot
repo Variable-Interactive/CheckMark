@@ -38,10 +38,10 @@ _global_script_class_icons={
 
 [application]
 
-config/name="GodoPlanner"
+config/name="Check Mark"
 config/description="Provides Boards to organize your projects"
 run/main_scene="res://Main.tscn"
-config/icon="res://assets/icons/icon.png"
+config/icon="res://assets/graphics/icons/icon.png"
 
 [autoload]
 
