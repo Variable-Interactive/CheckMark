@@ -27,7 +27,6 @@ func deserialize(information: Dictionary) -> void:
 			+ get_parent().scroll_offset
 		) / get_parent().zoom
 	)
-	resize_task(rect_size)
 	hint_tooltip = "Comment..."
 	if information.has("position"):
 		offset = information["position"]
@@ -35,6 +34,7 @@ func deserialize(information: Dictionary) -> void:
 		resize_task(information["size"])
 	if information.has("comment"):
 		hint_tooltip = information["comment"]
+	resize_task(rect_size)
 
 
 func get_type():

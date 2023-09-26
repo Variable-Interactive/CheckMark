@@ -6,7 +6,7 @@ The purpose of this script is to do project related functions
 """
 
 var tasks = [] setget , get_tasks  # Array of task dictionaries
-
+var save_path := ""
 
 func get_tasks() -> Array:
 	return tasks
@@ -29,7 +29,8 @@ func serialize() -> Dictionary:
 	if self == Global.current_project:  # if it is current project
 		update_tasks_array()
 	var data = {
-			"tasks": tasks
+			"tasks": tasks,
+			"save_path": save_path
 		}
 	return data
 
@@ -37,6 +38,8 @@ func serialize() -> Dictionary:
 func deserialize(data: Dictionary):
 	if data.has("tasks"):
 		tasks = data["tasks"]
+	if data.has("save_path"):
+		save_path = data["save_path"]
 
 
 func add_task(info :Dictionary):  # Task removal is handled by MindMap.gd

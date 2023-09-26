@@ -1,5 +1,12 @@
 extends Node
 
+var config = ConfigFile.new()
+var config_path = "user://config.cfg"
+
+# config options
+var last_open_dir := ""
+
+# regular variables
 enum RightMenuItems {
 	NEW_NOTE_TASK,
 	NEW_CHECKBOX_TASK,
@@ -21,6 +28,18 @@ onready var open_board: FileDialog = control.find_node("OpenBoard")
 onready var save_board: FileDialog = control.find_node("SaveBoard")
 
 
+func _ready() -> void:
+	var err = config.load(config_path)
+	if err == OK:
+		# should be moved to a separate func later
+		last_open_dir = config.get_value("Paths", "last_open_dir", "")
+
+func _exit_tree() -> void:
+	# should be moved to a separate func later
+	config.set_value("Paths", "last_open_dir", last_open_dir)
+	config.save(config_path)
+
+
 # Todo move these to a separate Script
 func change_project(idx):
 	if current_project:
@@ -29,6 +48,14 @@ func change_project(idx):
 	current_project = Global.projects[idx]
 	mind_map.new_render()
 	Global.current_project.update_completed_tasks()
+	# Highlight the new button
+	var button_idx = Global.projects.find(current_project)
+	for child_idx in boards.get_child_count():
+		var child = boards.get_child(child_idx)
+		if child_idx == button_idx:
+			child.self_modulate = Color.mediumslateblue
+		else:
+			child.self_modulate = Color.white
 
 
 func remove_project(idx):
